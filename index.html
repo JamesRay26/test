@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple HTML Test Page</title>
+    <!-- Using Tailwind CSS for quick, neat styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Importing a clean sans-serif font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+
+<body class="bg-gray-100 h-screen w-screen flex items-center justify-center p-4">
+    
+    <!-- Main Content Container -->
+    <div class="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center transition-transform hover:scale-[1.01] duration-300">
+        
+        <h1 class="text-3xl font-bold mb-4 text-gray-800">Hello, World!</h1>
+        <p class="text-gray-600 mb-8 leading-relaxed">
+            This is a simple HTML test page. It features a modern, centered layout with basic typography and an interactive button.
+        </p>
+        
+        <button id="actionButton" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 active:scale-95 focus:outline-none focus:ring-4 focus:ring-blue-300">
+            Click Me
+        </button>
+    </div>
+
+    <!-- Custom Modal (Replacing the default browser alert) -->
+    <div id="customModal" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm hidden flex items-center justify-center opacity-0 transition-opacity duration-300 z-50 p-4">
+        <div id="modalContent" class="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full text-center transform scale-90 transition-transform duration-300">
+            
+            <div class="w-12 h-12 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-4">
+                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            
+            <h2 class="text-xl font-bold mb-2 text-gray-800">Success!</h2>
+            <p class="text-gray-600 mb-6">You successfully clicked the button. This is your custom alert message.</p>
+            
+            <button id="closeModalBtn" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-6 rounded-lg transition-colors duration-300 w-full focus:outline-none focus:ring-2 focus:ring-gray-300">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const actionBtn = document.getElementById('actionButton');
+            const modal = document.getElementById('customModal');
+            const modalContent = document.getElementById('modalContent');
+            const closeBtn = document.getElementById('closeModalBtn');
+
+            // Function to open the modal
+            const openModal = () => {
+                modal.classList.remove('hidden');
+                // Force a browser reflow to allow the transition to play
+                void modal.offsetWidth; 
+                
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-90');
+                modalContent.classList.add('scale-100');
+            };
+
+            // Function to close the modal
+            const closeModal = () => {
+                modal.classList.add('opacity-0');
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-90');
+                
+                // Wait for transition to finish before hiding the element entirely
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            };
+
+            // Event Listeners
+            actionBtn.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            
+            // Close modal when clicking outside the box
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
